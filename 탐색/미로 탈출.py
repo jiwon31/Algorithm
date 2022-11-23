@@ -26,8 +26,8 @@ def bfs(x, y):
                 continue
             # 해당 노드를 처음 방문하는 경우에만 최단 거리 기록
             if graph[nx][ny] == 1:
-              graph[nx][ny] = graph[x][y] + 1
-              queue.append((nx, ny))
+                graph[nx][ny] = graph[x][y] + 1
+                queue.append((nx, ny))
     return graph[n - 1][m - 1]
 
 print(bfs(0, 0))
