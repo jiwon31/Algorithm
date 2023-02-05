@@ -17,3 +17,23 @@ if value != 0:
 # 리스트를 문자열로 변환
 print(''.join(result))
 
+# --------------------------------------------------------
+# 내 풀이
+data = input()
+alphabet = []
+number = 0
+number_count = 0
+
+for i in data:
+    if i.isalpha():
+        alphabet.append(i)
+    else:
+        number += int(i)
+        number_count += 1
+
+alphabet.sort()
+
+if number_count == 0:
+    print(''.join(alphabet))
+else:
+    print(''.join(alphabet) + str(number))
