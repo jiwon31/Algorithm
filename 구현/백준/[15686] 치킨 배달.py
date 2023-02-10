@@ -31,3 +31,34 @@ for candidate in candidates:
   result = min(result, get_sum(candidate))
 
 print(result)
+
+# ----------------------------------------------------------------------
+# 내 풀이
+from itertools import combinations 
+
+n, m = map(int, input().split())
+data = []
+for _ in range(n):
+    data.append(list(map(int, input().split())))
+
+home, chicken = [], []
+for a in range(n):
+    for b in range(n):
+        if data[a][b] == 1:
+            home.append((a, b))
+        elif data[a][b] == 2:
+            chicken.append((a, b))
+
+picked_chicken = list(combinations(chicken, m))
+
+result = 1e9
+for picked in picked_chicken:
+    city_distance = 0
+    for h in home:
+        distance = 1e9
+        for c in picked:
+            distance = min(distance, abs(h[0] - c[0]) + abs(h[1] - c[1])) 
+        city_distance += distance
+    result = min(result, city_distance)
+
+print(result)
