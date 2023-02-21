@@ -55,3 +55,33 @@ def dfs(count):
 
 dfs(0)
 print(result)
+
+# --------------------------------------------------------------
+# combinations 모듈 사용한 풀이
+from itertools import combinations
+
+# ... 중간은 똑같음 ...
+
+empty_space = []
+for i in range(n):
+    for j in range(m):
+        if data[i][j] == 0:
+            empty_space.append((i, j))
+
+walls = combinations(empty_space, 3)
+result = 0
+for wall in walls:
+    for wx, wy in wall:
+        data[wx][wy] = 1
+    for i in range(n):
+        for j in range(m):
+            temp[i][j] = data[i][j]        
+    for i in range(n):
+        for j in range(m):
+            if temp[i][j] == 2:
+                virus(i, j)
+    result = max(result, get_score())
+    for wx, wy in wall:
+        data[wx][wy] = 0
+
+print(result)
