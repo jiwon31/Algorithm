@@ -45,7 +45,6 @@ def watch(x, y, direction):
             x += 1
     return False
     
-
 # 장애물 설치 이후, 학생이 감지되는지 확인
 def process():
     for x, y in teachers:
@@ -69,6 +68,54 @@ for data in combinations(spaces, 3):
         board[x][y] = 'X'
 
 if result:
+    print('YES')
+else:
+    print('NO')
+
+# -------------------------------------------------------
+# DFS
+n = int(input())
+graph = []
+for i in range(n):
+    graph.append(list(input().split()))
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+def watch(x, y):
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+        while 0 <= nx < n and 0 <= ny < n and graph[nx][ny] != 'O':
+            if graph[nx][ny] == 'S':
+                return True
+            nx += dx[i]
+            ny += dy[i]
+    return False
+
+check = False
+def dfs(count):
+    global check
+    if count == 3:
+        for i in range(n):
+            for j in range(n):
+                if graph[i][j] == 'T':
+                    if watch(i, j):
+                        return check
+        check = True
+        return
+
+    for i in range(n):
+        for j in range(n):
+            if graph[i][j] == 'X':
+                graph[i][j] = 'O'
+                count += 1
+                dfs(count)
+                graph[i][j] = 'X'
+                count -= 1
+
+dfs(0)
+if check:
     print('YES')
 else:
     print('NO')
