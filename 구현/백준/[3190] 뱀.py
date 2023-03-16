@@ -58,3 +58,56 @@ def simulate():
 
 print(simulate())
         
+# ------------------------------------------------------------------------
+# 내 풀이
+n = int(input())
+graph = [[0] * (n + 1) for _ in range(n + 1)] # 맵
+
+k = int(input())
+for _ in range(k):
+    a, b = map(int, input().split())
+    graph[a][b] = 1 # 사과는 1
+
+direction = []
+l = int(input())
+for _ in range(l):
+    x, c = input().split()
+    direction.append((int(x), c))
+
+# 우 하 좌 상
+dx = [0, 1, 0, -1]
+dy = [1, 0, -1, 0]
+
+def turn(direction, position):
+    if direction == 'L':
+        return (position - 1) % 4
+    else:
+        return (position + 1) % 4
+
+count = 1 # 게임 진행 초
+x, y = 1, 1
+graph[x][y] = 2 # 뱀 초기 위치
+tail = [(x, y)] # 꼬리 위치
+position = 0 # 처음엔 오른쪽
+index = 0 # 다음에 회전할 정보
+while True:
+    nx = x + dx[position]
+    ny = y + dy[position]
+    if nx < 1 or nx > n or ny < 1 or ny > n or graph[nx][ny] == 2:
+        break
+    if graph[nx][ny] == 1:
+        graph[nx][ny] = 2
+        tail.append((nx, ny))
+    else:
+        tx, ty = tail.pop(0)
+        graph[tx][ty] = 0
+        graph[nx][ny] = 2
+        tail.append((nx, ny))
+    x, y = nx, ny
+
+    if index < l and count == direction[index][0]:
+        position = turn(direction[index][1], position)
+        index += 1
+    count += 1
+
+print(count)
